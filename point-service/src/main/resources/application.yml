@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Point Server
+
+server:
+  port: 8084

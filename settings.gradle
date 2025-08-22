@@ -1,0 +1,6 @@
+rootProject.name = 'CommerceCore'
+
+include 'order-service'
+include 'point-service'
+include 'product-service'
+include 'user-service'

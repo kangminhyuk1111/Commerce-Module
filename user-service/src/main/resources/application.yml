@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: User Service
+
+server:
+  port: 8081
+
+point-service:
+  api-url: http://localhost:8084/api/points
+  name: point-service-client
+
+jwt:
+  secret: mySecretKeyThatIsAtLeast32CharactersLongForHS256Algorithm
+  access-token-validity: 86400000
