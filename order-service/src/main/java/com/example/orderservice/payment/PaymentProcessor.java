@@ -1,9 +1,9 @@
 package com.example.orderservice.payment;
 
 import com.example.orderservice.dto.request.PaymentRequest;
-import com.example.orderservice.dto.response.PaymentResult;
+import com.example.orderservice.dto.response.PaymentResponse;
 
 public interface PaymentProcessor {
 
-  PaymentResult processPayment(PaymentRequest request);
+  PaymentResponse processPayment(PaymentRequest request);
 }

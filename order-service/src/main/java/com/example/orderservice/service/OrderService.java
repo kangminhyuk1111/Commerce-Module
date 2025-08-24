@@ -4,7 +4,7 @@ import com.example.orderservice.dto.request.CreateOrderRequest;
 import com.example.orderservice.dto.request.OrderItemRequest;
 import com.example.orderservice.dto.request.PaymentRequest;
 import com.example.orderservice.dto.response.OrderResponse;
-import com.example.orderservice.dto.response.PaymentResult;
+import com.example.orderservice.dto.response.PaymentResponse;
 import com.example.orderservice.entity.Order;
 import com.example.orderservice.exception.ApplicationException;
 import com.example.orderservice.payment.PaymentMethod;
@@ -72,7 +72,7 @@ public class OrderService {
         order.getId(), order.getMemberId(), order.getTotalPrice(), PaymentMethod.POINT
     );
 
-    final PaymentResult result = processor.processPayment(paymentRequest);
+    final PaymentResponse result = processor.processPayment(paymentRequest);
 
     if (result.status() != PaymentStatus.SUCCESS) {
       throw new ApplicationException("결제 실패: " + result.failureReason());
