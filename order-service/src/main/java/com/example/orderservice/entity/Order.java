@@ -53,7 +53,7 @@ public class Order {
     if (this.status != OrderStatus.PENDING) {
       throw new ApplicationException("대기 중인 주문만 취소 처리할 수 있습니다.");
     }
-    this.status = OrderStatus.CANCELLED;
+    this.status = OrderStatus.PAID;
   }
 
   public void cancel() {

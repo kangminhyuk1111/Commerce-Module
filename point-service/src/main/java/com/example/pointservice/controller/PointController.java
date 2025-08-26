@@ -23,21 +23,25 @@ public class PointController {
     this.pointService = pointService;
   }
 
-  @GetMapping("/{id}")
-  public PointResponse findPointByUserId(@PathVariable Long id) {
-    return pointService.findPointByUserId(id);
+  // UserId를 통해 포인트 조회
+  @GetMapping("/{userId}")
+  public PointResponse findPointByUserId(@PathVariable Long userId) {
+    return pointService.findPointByUserId(userId);
   }
 
+  // 포인트 추가
   @PostMapping("/add")
   public PointResponse addPointByUserId(@RequestBody AddPointRequest request) {
     return pointService.addPoint(request);
   }
 
+  // 포인트 사용
   @PostMapping("/use")
   public PointResponse usePointByUserId(@RequestBody UsePointRequest request) {
     return pointService.usePoint(request);
   }
 
+  // 포인트 환불
   @PostMapping("/refund")
   public PointResponse refundPointByUserId(@RequestBody RefundPointRequest request) {
     return pointService.refundPoint(request);

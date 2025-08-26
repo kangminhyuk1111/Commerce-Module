@@ -34,39 +34,46 @@ public class ProductController {
     this.productService = productService;
   }
 
+  // 전체 상품 조회 - 페이징 x
   @GetMapping
   public List<ProductResponse> findAllProducts() {
     return productService.findAll();
   }
 
+  // 상품 상세 조회
   @GetMapping("/{id}")
   public ProductResponse findProductById(@PathVariable final Long id) {
     return productService.findById(id);
   }
 
+  // 신규 상품 추가
   @PostMapping
   public ProductResponse addNewProduct(@RequestBody final CreateProductRequest request) {
     return productService.save(request);
   }
 
+  // 상품 업데이트
   @PutMapping("/{id}")
   public ProductResponse updateProduct(@PathVariable final Long id, @RequestBody UpdateProductRequest request) {
     return productService.update(id, request);
   }
 
+  // 상품 삭제
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void deleteProduct(@PathVariable final Long id) {
     productService.delete(id);
   }
 
-  @PutMapping("/reduce")
+  // 상품 재고 차감
+  @PutMapping("/{id}/reduce")
   @ResponseStatus(HttpStatus.OK)
   public void reduceProductStock(@RequestBody ReduceProductRequest request) {
     productService.reduceStock(request);
   }
 
-  @PutMapping("/restore")
+  // 상품 재고 회복
+  @PutMapping("/{id}/restore")
   @ResponseStatus(HttpStatus.OK)
   public void restoreProductStock(@RequestBody RestoreProductRequest request) {
     productService.restoreProduct(request);

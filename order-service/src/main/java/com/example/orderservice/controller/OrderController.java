@@ -46,6 +46,7 @@ public class OrderController {
     return orderService.createOrder(request);
   }
 
+  // 주문 취소
   @PutMapping("/{id}/cancel")
   public OrderResponse cancelOrder(@PathVariable final Long id) {
     return orderService.cancelOrder(id);
