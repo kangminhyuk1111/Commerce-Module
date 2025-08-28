@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FakeOrderRepository implements OrderRepository {
 
@@ -40,7 +41,9 @@ public class FakeOrderRepository implements OrderRepository {
 
   @Override
   public List<Order> findOrdersByUserId(final Long userId) {
-    return List.of();
+    return storage.values().stream()
+        .filter(order -> order.getMemberId().equals(userId))
+        .collect(Collectors.toList());
   }
 
   private Order createOrderWithId(Long id, Order order) {

@@ -50,10 +50,4 @@ public class FakeMemberRepository implements MemberRepository {
     store.put(memberToSave.getId(), memberToSave);
     return memberToSave;
   }
-
-  @Override
-  public boolean existsByEmail(final String email) {
-    return store.values().stream()
-        .anyMatch(member -> member.getEmail().equals(email));
-  }
 }

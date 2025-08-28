@@ -13,9 +13,7 @@ public class MemberTest {
 
     @Test
     void 기본_생성자() {
-      // Arrange
-
-      // Act
+      // Arrange & Act
       Member member = new Member();
 
       // Assert

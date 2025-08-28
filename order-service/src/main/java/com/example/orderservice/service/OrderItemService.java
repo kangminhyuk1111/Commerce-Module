@@ -9,7 +9,6 @@ import com.example.orderservice.exception.ApplicationException;
 import com.example.orderservice.repository.OrderItemRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderItemService {
@@ -17,41 +16,49 @@ public class OrderItemService {
   private final OrderItemRepository orderItemsRepository;
   private final ProductClient productClient;
 
-  public OrderItemService(final OrderItemRepository orderItemsRepository, final ProductClient productClient) {
+  public OrderItemService(final OrderItemRepository orderItemsRepository,
+      final ProductClient productClient) {
     this.orderItemsRepository = orderItemsRepository;
     this.productClient = productClient;
   }
 
-  @Transactional
+  /**
+   * 주문 아이템 저장 및 스냅샷
+   */
   public void saveOrderItems(final List<OrderItemRequest> items, final Order savedOrder) {
-    for (OrderItemRequest item : items) {
-      final ProductResponse product = productClient.findProductById(item.productId());
+    items.stream()
+        .map(item -> {
+          ProductResponse product = productClient.findProductById(item.productId());
 
-      final OrderItem orderItem = new OrderItem(
-          savedOrder.getId(),
-          product.id(),
-          product.name(),
-          product.price(),
-          item.quantity()
-      );
+          if (product.stock() < item.quantity()) {
+            throw new ApplicationException("재고 부족: " + product.name());
+          }
 
-      orderItemsRepository.save(orderItem);
-    }
+          return new OrderItem(
+              savedOrder.getId(),
+              product.id(),
+              product.name(),
+              product.price(),
+              item.quantity()
+          );
+        })
+        .forEach(orderItemsRepository::save);
   }
 
+  /**
+   * 총 금액 계산 (상품 조회 + 재고 검증)
+   */
   public int calculateTotalPrice(final List<OrderItemRequest> items) {
-    int totalPrice = 0;
+    return items.stream()
+        .mapToInt(item -> {
+          ProductResponse product = productClient.findProductById(item.productId());
 
-    for (OrderItemRequest item : items) {
-      final ProductResponse product = productClient.findProductById(item.productId());
+          if (product.stock() < item.quantity()) {
+            throw new ApplicationException("재고 부족: " + product.name());
+          }
 
-      if (product.stock() < item.quantity()) {
-        throw new ApplicationException("재고 부족: " + product.name());
-      }
-
-      totalPrice += product.price() * item.quantity();
-    }
-
-    return totalPrice;
+          return product.price() * item.quantity();
+        })
+        .sum();
   }
 }

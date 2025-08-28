@@ -76,7 +76,7 @@ class OrderTest {
         // pendingOrder는 BeforeEach에서 설정됨
 
         // Act
-        pendingOrder.markAsPaid();
+        pendingOrder.cancel();
 
         // Assert
         assertThat(pendingOrder.getStatus()).isEqualTo(OrderStatus.CANCELLED);

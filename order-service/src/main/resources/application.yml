@@ -4,18 +4,17 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: 'jdbc:mysql://localhost:3306/order_db?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8'
+    url: 'jdbc:mysql://localhost:3306/order_db?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true'
     username: root
     password: 1234
   jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect  # MySQL8Dialect은 deprecated됨
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: false
-        show_sql: false
+        show_sql: true  # 개발 중에는 true로 설정 권장
+        format_sql: true
 
 server:
   port: 8083

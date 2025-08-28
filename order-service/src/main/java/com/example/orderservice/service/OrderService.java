@@ -44,6 +44,10 @@ public class OrderService {
   public OrderResponse createOrder(final CreateOrderRequest request) {
     final List<OrderItemRequest> items = request.items();
 
+    if (items == null || items.isEmpty()) {
+      throw new ApplicationException("주문 상품이 비어있습니다.");
+    }
+
     final Integer totalPrice = orderItemService.calculateTotalPrice(items);
 
     final Order order = request.toDomain(totalPrice);
